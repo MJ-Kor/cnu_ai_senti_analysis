@@ -1,9 +1,11 @@
 import requests
+from collector.CollectorService import get_daum_news_
 import pprint
 from bs4 import BeautifulSoup
 
 # 링크는 다 anchor 태그 , href
 url = 'https://news.daum.net/breakingnews/digital'
+# SSL Error -> requests.get(url, verify=False)
 
 result = requests.get(url)
 # #print(result.text)
@@ -21,4 +23,5 @@ title_list = doc.select('ul.list_news2 a.link_txt')
 # list[]의 index는 0번부터 시작
 # len(list) = 15, index = 0 ~ 14
 for i, title in enumerate(title_list):
-    print(f'인덱스번호 : {i}, url : {title["href"]}')
+    print(f'인덱스번호 : {i+1}, url : {title["href"]}')
+    get_daum_news_(title["href"])  # 뉴스 제목, 본문 수집 함수
